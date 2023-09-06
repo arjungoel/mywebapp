@@ -39,7 +39,7 @@ jobs:
     # IIS Deployment
     - name: Deployment to IIS
       run: |
-        iisreset /stop
+        iisreset /stop /timeout:100
         Copy-Item $DOTNET_ROOT/mywebapp/* C:/inetpub/wwwroot/mywebapp -Recurse -Force
         iisreset /start
     # - name: Curl the website as a smoke test
