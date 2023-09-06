@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# env:
-#   DOTNET_ROOT: ${{ secrets.DOTNET_ROOT }}
+env:
+  DOTNET_ROOT: ${{ secrets.DOTNET_ROOT }}
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
       run: dotnet build --configuration Release
     - name: dotnet publish
       run: |
-        dotnet publish -c Release
+        dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
     # - name: Deploy to IIS Server
     #   shell: cmd
