@@ -38,6 +38,7 @@ jobs:
       run: |
         dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
+    - uses: Amadevus/pwsh-script@v2
     - name: Deployment to IIS
       shell: pwsh
       run: |
