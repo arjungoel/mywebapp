@@ -42,6 +42,9 @@ jobs:
     - name: Run Powershell Commands
       shell: powershell
       run: echo "Hello world"
+    - name: Stop IIS
+      shell: powershell
+      run: iisreset /stop
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
