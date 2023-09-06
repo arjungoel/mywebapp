@@ -1,6 +1,7 @@
 name: "Deploying a CI/CD for .NET sample app using GitHub Actions"
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
