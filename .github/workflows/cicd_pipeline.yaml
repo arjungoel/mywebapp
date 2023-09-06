@@ -22,11 +22,6 @@ jobs:
     steps:
     - name: Checkout code repository
       uses: actions/checkout@v3
-    - uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
-        role-session-name: GitHub-Action-Role
-        aws-region: ${{ env.AWS_REGION }}
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -44,12 +39,6 @@ jobs:
       run: |
         dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
-    - uses: Amadevus/pwsh-script@v2
-    - name: Deployment to IIS
-      run: |
-        iisreset /stop /timeout:100
-        Copy-Item $DOTNET_ROOT/mywebapp/* C:/inetpub/wwwroot/mywebapp -Recurse -Force
-        iisreset /start
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
