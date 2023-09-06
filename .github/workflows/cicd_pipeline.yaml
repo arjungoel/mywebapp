@@ -41,7 +41,7 @@ jobs:
     # IIS Deployment
     - name: Run Powershell Commands
       run: |
-        & 'C:\actions-runner\_work\mywebapp\mywebapp\deploy.ps1'
+        '& C:\actions-runner\_work\mywebapp\mywebapp\deploy.ps1'
         
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
