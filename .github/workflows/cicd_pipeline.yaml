@@ -30,6 +30,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: dotnet publish
+      shell: cmd
       run: |
         dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
