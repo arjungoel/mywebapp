@@ -35,7 +35,6 @@ jobs:
         dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
     - name: Deploy to IIS Server
-      shell: pwsh
       run: |
         iisreset /stop
         Copy-Item $DOTNET_ROOT/mywebapp/* C:/inetpub/wwwroot/mywebapp -Recurse -Force
