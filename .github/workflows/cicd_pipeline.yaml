@@ -40,9 +40,8 @@ jobs:
         dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
     - name: Run Powershell Commands
-      run: |
-        '& C:\actions-runner\_work\mywebapp\mywebapp\deploy.ps1'
-        
+      shell: powershell
+      run: echo "Hello world"
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
