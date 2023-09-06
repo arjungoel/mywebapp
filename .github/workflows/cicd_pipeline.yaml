@@ -36,9 +36,9 @@ jobs:
     # IIS Deployment
     - name: Deployment to IIS
       run: |
-        iisreset /stop
+        iisreset /stop EC2AMAZ-UJ63U5I
         Copy-Item $DOTNET_ROOT/mywebapp/* C:/inetpub/wwwroot/mywebapp -Recurse -Force
-        iisreset /start
+        iisreset /start EC2AMAZ-UJ63U5I
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
