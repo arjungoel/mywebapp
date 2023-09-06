@@ -1,0 +1,53 @@
+name: "Deploying a CI/CD for .NET sample app using GitHub Actions"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# env:
+#   DOTNET_ROOT: ${{ secrets.DOTNET_ROOT }}
+
+jobs:
+  build:
+
+    runs-on: [ self-hosted, Windows, X64 ]
+
+    steps:
+    - name: Checkout code repository
+      uses: actions/checkout@v3
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0'
+        include-prerelease: True
+    - name: Display dotnet version
+      run: dotnet --version
+    - name: Restore dependencies
+      run: dotnet restore
+    # dotnet build and publish
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    - name: dotnet publish
+      run: |
+        dotnet publish -c Release
+    # IIS Deployment
+    # - name: Deploy to IIS Server
+    #   shell: cmd
+    #   run: |
+    #     iisreset /stop
+    #     Copy-Item $DOTNET_ROOT/MyWebApp/* C:/inetpub/wwwroot/MyWebApp -Recurse -Force
+    #     iisreset /start
+    # - name: Curl the website as a smoke test
+    #   run: curl http://localhost/
+
+    # - name: Run Web Test
+    #   run: |
+    #     dotnet build --configuration Release .\dotnet-core-webapp.webtest
+    #     cd .\dotnet-core-webapp.webtests
+    #     dotnet test
+    # - name: Test
+    #   run: dotnet test --no-build --verbosity normal
+    # - name: Run the WebApp
+    #   run: dotnet watch
