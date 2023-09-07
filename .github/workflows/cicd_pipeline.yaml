@@ -45,7 +45,7 @@ jobs:
       run: |
         #iisreset /stop
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
-        Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/myapp -Recurse -Force" -Verb RunAs
+        Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
         Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
         #Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
         #iisreset /start
