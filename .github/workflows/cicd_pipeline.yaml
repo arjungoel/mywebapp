@@ -48,7 +48,7 @@ jobs:
         secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         awsBucket: ${{ secrets.AWS_BUCKET_NAME }}
         s3Subfolder: artifacts
-        sourceFolder: ./myapp
+        sourceFolder: myapp
         #publishAsVirtualProject: bestproject
     # IIS Deployment
     - name: Deploy to IIS Server
