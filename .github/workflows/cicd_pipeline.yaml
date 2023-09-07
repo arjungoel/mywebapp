@@ -33,12 +33,12 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     # dotnet build and publish
-    # - name: Build with dotnet
-    #   run: dotnet build --configuration Release
-    # - name: Publish the artifacts
-    #   shell: cmd
-    #   run: |
-    #     dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    - name: Publish the artifacts
+      shell: cmd
+      run: |
+        dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
     # IIS Deployment
     - name: Test Powershell Commands
       shell: powershell
