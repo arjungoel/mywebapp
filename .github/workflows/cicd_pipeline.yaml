@@ -41,7 +41,7 @@ jobs:
         dotnet publish -c Release -o ./myapp
     # IIS Deployment
     - name: Test Powershell Commands
-      # shell: powershell
+      shell: powershell
       run: |
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
         Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
