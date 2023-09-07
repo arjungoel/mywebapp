@@ -40,7 +40,7 @@ jobs:
       run: |
         dotnet publish -c Release -o ./myapp
     # IIS Deployment
-    - name: Test Powershell Commands
+    - name: Deploy to IIS Server
       shell: powershell
       run: |
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
