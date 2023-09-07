@@ -34,11 +34,11 @@ jobs:
       run: dotnet restore
     # dotnet build and publish
     - name: Build with dotnet
-      run: dotnet build --configuration Release .\dotnet-core-webapp
+      run: dotnet build --configuration Release
       
     - name: Publish the artifacts
       run: |
-        dotnet publish -c Release -o dotnetcorewebapp .\dotnet-core-webapp
+        dotnet publish -c Release -o ./myapp
     # IIS Deployment
     - name: Test Powershell Commands
       shell: powershell
