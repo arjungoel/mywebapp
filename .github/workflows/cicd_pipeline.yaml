@@ -1,4 +1,4 @@
-name: "Deploying a CI/CD for .NET sample app using GitHub Actions"
+name: "Deploying a CI/CD for .NET sample app using GitHub Actions and storing the application artifacts to Amazon S3"
 
 on:
   workflow_dispatch:
@@ -55,21 +55,6 @@ jobs:
         Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
         # Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
         Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
+        
     - name: Curl the website 
       run: curl http://localhost/
-    #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
-    #   run: |
-    #     set PATH=C:\actions-runner\_work\_temp
-    #     iisreset /stop
-    # - name: Curl the website as a smoke test
-    #   run: curl http://localhost/
-
-    # - name: Run Web Test
-    #   run: |
-    #     dotnet build --configuration Release .\dotnet-core-webapp.webtest
-    #     cd .\dotnet-core-webapp.webtests
-    #     dotnet test
-    # - name: Test
-    #   run: dotnet test --no-build --verbosity normal
-    # - name: Run the WebApp
-    #   run: dotnet watch
