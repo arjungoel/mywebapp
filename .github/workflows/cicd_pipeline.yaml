@@ -47,8 +47,8 @@ jobs:
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
         Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
         Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
-        #Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
-        #iisreset /start
+        # Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
+        # iisreset /start
     #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
     #   run: |
     #     set PATH=C:\actions-runner\_work\_temp
