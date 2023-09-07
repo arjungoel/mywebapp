@@ -44,7 +44,7 @@ jobs:
       shell: powershell
       run: |
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
-        Start-Process powershell -ArgumentList Copy-Item "./myapp/*" "C:/inetpub/wwwroot/" -Recurse -Force -Verb RunAs
+        Start-Process powershell -ArgumentList Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force -Verb RunAs
         Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
     #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
     #   run: |
