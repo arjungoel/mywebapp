@@ -41,15 +41,14 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-    - name: Deploying application artifacts to Amazon S3
-      uses: dvelasquez/deploy-s3-action@main
+    - name: Pushing the application artifacts to Amazon S3
+      uses: hkusu/s3-upload-action@v2
       with:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-        AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-        BUCKET_PATH: "" 
-        DIST_LOCATION_CODE: ./artifacts
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-bucket: ${{ secrets.AWS_BUCKET_NAME }}
+        file-path: './myapp/*'
     # IIS Deployment
     - name: Deploy to IIS Server
       shell: powershell
