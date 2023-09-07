@@ -43,7 +43,7 @@ jobs:
       shell: powershell
       run: echo "Hello world"
     - name: Stop IIS
-      shell: powershell
+      shell: C:\Windows\system32\cmd.EXE
       run: iisreset /stop
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
