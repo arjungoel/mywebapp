@@ -9,7 +9,7 @@ on:
 
 env:
   DOTNET_ROOT: ${{ secrets.DOTNET_ROOT }}
-  PATH: "C:\actions-runner\_work\_temp"
+  # PATH: "C:\actions-runner\_work\_temp"
   # AWS_REGION: "us-east-1"
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
     - name: Stop IIS
       shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
       run: |
-        iisreset /stop ${{ env.PATH }}
+        iisreset /stop
         # set C:\actions-runner\_work\_temp\
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
