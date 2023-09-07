@@ -43,7 +43,7 @@ jobs:
     - name: Test Powershell Commands
       # shell: powershell
       run: |
-        #iisreset /stop
+        # iisreset /stop
         Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
         Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
         Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
