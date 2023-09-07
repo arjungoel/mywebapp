@@ -44,6 +44,7 @@ jobs:
       shell: powershell
       run: echo "Hello world"
     - name: Copy Items from publish to wwwroot
+      shell: powershell
       run: Copy-Item C:\actions-runner\_work\mywebapp\mywebapp\$DOTNET_ROOT\mywebapp\* C:\inetpub\wwwroot\mywebapp -Recurse -Force
     # - name: Stop IIS
     #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
