@@ -43,11 +43,13 @@ jobs:
     - name: Test Powershell Commands
       shell: powershell
       run: echo "Hello world"
-    - name: Stop IIS
-      shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
-      run: |
-        set PATH=C:\actions-runner\_work\_temp
-        iisreset /stop
+    - name: Copy Items from publish to wwwroot
+      run: Copy-Item C:\actions-runner\_work\mywebapp\mywebapp\$DOTNET_ROOT\mywebapp\* C:\inetpub\wwwroot\mywebapp -Recurse -Force
+    # - name: Stop IIS
+    #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
+    #   run: |
+    #     set PATH=C:\actions-runner\_work\_temp
+    #     iisreset /stop
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
