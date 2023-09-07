@@ -47,7 +47,7 @@ jobs:
         # Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
         # Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
     - name: Copy Publish folder to wwwroot
-      shell: cmd
+      shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}"
       run: xcopy /s /y ./myapp/* C:/inetpub/wwwroot/
     - name: Restart the IIS Server
       shell: powershell
