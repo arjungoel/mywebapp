@@ -34,19 +34,17 @@ jobs:
       run: dotnet restore
     # dotnet build and publish
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release .\dotnet-core-webapp
+      
     - name: Publish the artifacts
-      shell: cmd
       run: |
-        dotnet publish -c Release -o "$DOTNET_ROOT/mywebapp"
+        dotnet publish -c Release -o dotnetcorewebapp .\dotnet-core-webapp
     # IIS Deployment
     - name: Test Powershell Commands
       shell: powershell
-      run: echo "Hello world"
-    - name: Copy Items from publish to wwwroot
-      shell: powershell
-      run: Copy-Item C:\actions-runner\_work\mywebapp\mywebapp\* C:\inetpub\wwwroot\mywebapp -Recurse -Force
-    # - name: Stop IIS
+        iisreset /stop
+        Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
+        iisreset /start
     #   shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
     #   run: |
     #     set PATH=C:\actions-runner\_work\_temp
