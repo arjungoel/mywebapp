@@ -42,6 +42,7 @@ jobs:
     # IIS Deployment
     - name: Test Powershell Commands
       shell: powershell
+      run: |
         iisreset /stop
         Copy-Item ./dotnetcorewebapp/* C:/inetpub/wwwroot/dotnetcore-webapp -Recurse -Force
         iisreset /start
