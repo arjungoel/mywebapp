@@ -43,7 +43,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     - name: Uploading the application artifacts to Amazon S3
       shell: cmd
-      run: C:\Program Files\Amazon\AWSCLIV2\aws aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
+      run: C:\"Program Files"\Amazon\AWSCLIV2\aws aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
     # IIS Deployment
     - name: Deploy to IIS Server
       shell: powershell
