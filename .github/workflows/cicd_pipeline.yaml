@@ -44,12 +44,10 @@ jobs:
       shell: powershell
       run: echo "Hello world"
     - name: Stop IIS
-      env:
-        PATH: "C:\actions-runner\_work\_temp"
       shell: C:\Windows\system32\cmd.EXE /D /E:ON /V:OFF /S /C "CALL "{0}""
       run: |
-        iisreset /stop ${{ env.PATH }}
-        # set C:\actions-runner\_work\_temp\
+        set PATH=C:\actions-runner\_work\_temp
+        iisreset /stop
     # - name: Curl the website as a smoke test
     #   run: curl http://localhost/
 
