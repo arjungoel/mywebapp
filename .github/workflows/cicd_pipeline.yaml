@@ -34,16 +34,16 @@ jobs:
       run: dotnet publish -c Release -o ./myapp
         
     # Push artifacts to S3 bucket
-    # - name: Set AWS credentials
-    #   uses: aws-actions/configure-aws-credentials@v1
-    #   with:
-    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: ${{ secrets.AWS_REGION }}
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
         
-    # - name: Uploading the application artifacts to Amazon S3
-    #   shell: cmd
-    #   run: C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
+    - name: Uploading the application artifacts to Amazon S3
+      shell: cmd
+      run: C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
         
     # IIS Deployment
     - name: Deploy to IIS Server
