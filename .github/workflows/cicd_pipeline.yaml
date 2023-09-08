@@ -18,22 +18,20 @@ jobs:
     steps:
     - name: Checkout code repository
       uses: actions/checkout@v3
-    # - name: Install .NET Core
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: '7.0'
-    #     include-prerelease: True
-    # - name: Print dotnet version
-    #   run: dotnet --version
-    # - name: Restore dependencies
-    #   run: dotnet restore
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0'
+        include-prerelease: True
+    - name: Print dotnet version
+      run: dotnet --version
+    - name: Restore dependencies
+      run: dotnet restore
     # dotnet build and publish
-    # - name: Build with dotnet
-    #   run: dotnet build --configuration Release
-      
-    # - name: Publish the artifacts
-    #   run: |
-    #     dotnet publish -c Release -o ./myapp
+    - name: Build with dotnet
+      run: dotnet build --configuration Release  
+    - name: Publish the artifacts
+      run: dotnet publish -c Release -o ./myapp
         
     # Push artifacts to S3 bucket
     # - name: Set AWS credentials
@@ -48,13 +46,14 @@ jobs:
     #   run: C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
         
     # IIS Deployment
-    # - name: Deploy to IIS Server
-    #   shell: powershell
-    #   run: |
-    #     Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
-    #     # Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
+    - name: Deploy to IIS Server
+      shell: powershell
+      run: |
+        Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
+        Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
+        Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
     #     # Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
-    #     Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
+        
         
     - name: Curl the website 
       run: curl http://localhost/
