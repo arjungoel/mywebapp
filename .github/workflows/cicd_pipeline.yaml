@@ -1,4 +1,4 @@
-name: "Deploying a CI/CD for .NET sample app using GitHub Actions and storing the application artifacts to Amazon S3"
+name: "Deploying a CI/CD for .NET application using GitHub Actions and storing the application artifacts to Amazon S3"
 
 on:
   workflow_dispatch:
