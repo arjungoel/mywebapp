@@ -18,43 +18,43 @@ jobs:
     steps:
     - name: Checkout code repository
       uses: actions/checkout@v3
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '7.0'
-        include-prerelease: True
-    - name: Print dotnet version
-      run: dotnet --version
-    - name: Restore dependencies
-      run: dotnet restore
+    # - name: Install .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: '7.0'
+    #     include-prerelease: True
+    # - name: Print dotnet version
+    #   run: dotnet --version
+    # - name: Restore dependencies
+    #   run: dotnet restore
     # dotnet build and publish
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+    # - name: Build with dotnet
+    #   run: dotnet build --configuration Release
       
-    - name: Publish the artifacts
-      run: |
-        dotnet publish -c Release -o ./myapp
+    # - name: Publish the artifacts
+    #   run: |
+    #     dotnet publish -c Release -o ./myapp
         
     # Push artifacts to S3 bucket
-    - name: Set AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+    # - name: Set AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: ${{ secrets.AWS_REGION }}
         
-    - name: Uploading the application artifacts to Amazon S3
-      shell: cmd
-      run: C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
+    # - name: Uploading the application artifacts to Amazon S3
+    #   shell: cmd
+    #   run: C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-publish-artifacts-storage/artifacts/
         
     # IIS Deployment
-    - name: Deploy to IIS Server
-      shell: powershell
-      run: |
-        Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
-        Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
-        # Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
-        Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
+    # - name: Deploy to IIS Server
+    #   shell: powershell
+    #   run: |
+    #     Start-Process powershell -ArgumentList "iisreset /stop" -Verb RunAs
+    #     # Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
+    #     # Start-Process powershell -ArgumentList "Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force" -Verb RunAs
+    #     Start-Process powershell -ArgumentList "iisreset /start" -Verb RunAs
         
     - name: Curl the website 
       run: curl http://localhost/
