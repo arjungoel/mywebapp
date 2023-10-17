@@ -37,6 +37,7 @@ jobs:
       run: dotnet publish -c Release -o ./myapp
 
     - name: Zip the dotnet build
+      shell: powershell
       run: Compress-Archive -Path "D:\a\mywebapp\mywebapp\myapp" -DestinationPath "D:\a\mywebapp\mywebapp\myapp.zip"
         
     # Push artifacts to S3 bucket
