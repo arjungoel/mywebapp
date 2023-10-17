@@ -38,7 +38,7 @@ jobs:
 
     - name: Zip the dotnet build
       shell: powershell
-      run: Compress-Archive -Path "D:\a\mywebapp\mywebapp\myapp" -DestinationPath "D:\a\mywebapp\mywebapp\myapp.zip"
+      run: Compress-Archive -Path "D:\a\mywebapp\mywebapp\myapp\" -DestinationPath "D:\a\mywebapp\mywebapp\myapp\myapp.zip"
         
     # Push artifacts to S3 bucket
     - name: Set AWS credentials
@@ -51,7 +51,7 @@ jobs:
     - name: Uploading the application artifacts to Amazon S3
       shell: cmd
       run: |
-        C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync D:\a\mywebapp\mywebapp\myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/
+        aws s3 cp D:\a\mywebapp\mywebapp\myapp\myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/
         # C:\"Program Files"\Amazon\AWSCLIV2\aws s3 sync ./myapp s3://dotnet-cicd-bucket-demo/dotnet-web-app/
         
     # IIS Deployment
