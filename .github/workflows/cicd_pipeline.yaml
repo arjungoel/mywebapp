@@ -47,19 +47,21 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-        
+
+    - name: Retrieve Commit SHA for the build
+      shell: powershell
+      run: |
+        $output = git rev-parse --short=4 HEAD
+        echo $output
+        echo $output > commit_sha.txt
+           
     - name: Uploading the application artifacts to Amazon S3
       shell: cmd
       run: |
         aws s3 cp D:\a\mywebapp\mywebapp\myapp\myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/
+        aws s3 cp commit_sha.txt s3://dotnet-cicd-bucket-demo/dotnet-web-app/
+
         
-    # IIS Deployment
-    # - name: Deploy to IIS Server
-    #   shell: powershell
-    #   run: |
-    #     iisreset /stop
-    #     Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
-    #     iisreset /start
   deploy:
     needs: build
     runs-on: [ self-hosted, Windows, X64, dotnet-core-web ]
@@ -78,8 +80,7 @@ jobs:
     
     - name: Download the zip file from S3 to EC2 folder
       shell: powershell
-      run: |
-        C:\"Program Files"\Amazon\AWSCLIV2\aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip C:\actions-runner\_work
+      run: aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip C:\actions-runner\_work
         
     - name: Unzipping the Zip file
       shell: powershell
@@ -88,7 +89,11 @@ jobs:
     - name: Stop IIS Server
       shell: powershell
       run: iisreset /stop       
-    
+
+    - name: Delete the IIS folder
+      shell: powershell
+      run: Remove-Item "C:\inetpub\wwwroot\*"  -Recurse
+      
     - name: Copy files to wwwroot folder of IIS server
       shell: powershell
       run: Copy-Item -Path C:\actions-runner\_work\output\* -Destination "C:\inetpub\wwwroot" -Recurse -Force
@@ -96,3 +101,22 @@ jobs:
     - name: Start IIS Server
       shell: powershell
       run: iisreset /start
+
+    - name: Download the Commit SHA file from S3 bucket to EC2 location and rename the artifacts file in S3 bucket
+      shell: powershell
+      run: |
+        aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/commit_sha.txt C:\actions-runner\_work
+        $output = cat C:\actions-runner\_work\commit_sha.txt
+        aws s3 mv s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp-$output.zip
+                
+    - name: Delete the unzipped output folder & zipped file to allow new builds gracefully
+      shell: powershell
+      run: |
+        Remove-Item C:\actions-runner\_work\output -Recurse
+        Remove-Item C:\actions-runner\_work\myapp.zip
+            
+    - name: Delete the Commit SHA file from S3 bucket and EC2 instance location 
+      shell: powershell
+      run: |
+        aws s3 rm s3://dotnet-cicd-bucket-demo/dotnet-web-app/commit_sha.txt    
+        Remove-Item C:\actions-runner\_work\commit_sha.txt
