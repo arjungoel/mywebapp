@@ -84,3 +84,15 @@ jobs:
     - name: Unzipping the Zip file
       shell: powershell
       run: Expand-Archive -Path C:\actions-runner\_work\myapp.zip -DestinationPath C:\actions-runner\_work\output
+
+    - name: Stop IIS Server
+      shell: powershell
+      run: iisreset /stop       
+    
+    - name: Copy files to wwwroot folder of IIS server
+      shell: powershell
+      run: Copy-Item -Path C:\actions-runner\_work\output\* -Destination "C:\inetpub\wwwroot" -Recurse -Force
+
+    - name: Start IIS Server
+      shell: powershell
+      run: iisreset /start
