@@ -60,3 +60,27 @@ jobs:
     #     iisreset /stop
     #     Copy-Item ./myapp/* C:/inetpub/wwwroot/ -Recurse -Force
     #     iisreset /start
+  deploy:
+    needs: build
+    runs-on: [ self-hosted, Windows, X64, dotnet-core-web ]
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    
+    - name: Download the zip file from S3 to EC2 folder
+      shell: powershell
+      run: |
+        C:\"Program Files"\Amazon\AWSCLIV2\aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip C:\actions-runner\_work
+        
+    - name: Unzipping the Zip file
+      shell: powershell
+      run: Expand-Archive -Path C:\actions-runner\_work\myapp.zip -DestinationPath C:\actions-runner\_work\output
