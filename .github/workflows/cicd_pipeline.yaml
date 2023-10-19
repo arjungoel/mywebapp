@@ -15,6 +15,11 @@ jobs:
       run:
         shell: cmd
 
+    env:
+      BUILD_PATH: ${{ secrets.BUILD_PATH }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      
+
     steps:
     - name: Checkout code repository
       uses: actions/checkout@v3
@@ -38,7 +43,7 @@ jobs:
 
     - name: Zip the dotnet build
       shell: powershell
-      run: Compress-Archive -Path "D:\a\mywebapp\mywebapp\myapp\" -DestinationPath "D:\a\mywebapp\mywebapp\myapp\myapp.zip"
+      run: Compress-Archive -Path "${{ env.BUILD_PATH }}\" -DestinationPath "${{ env.BUILD_PATH }}\myapp.zip"
         
     # Push artifacts to S3 bucket
     - name: Set AWS credentials
@@ -58,8 +63,8 @@ jobs:
     - name: Uploading the application artifacts to Amazon S3
       shell: cmd
       run: |
-        aws s3 cp D:\a\mywebapp\mywebapp\myapp\myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/
-        aws s3 cp commit_sha.txt s3://dotnet-cicd-bucket-demo/dotnet-web-app/
+        aws s3 cp ${{ env.BUILD_PATH }}\myapp.zip s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/
+        aws s3 cp commit_sha.txt s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/
 
         
   deploy:
@@ -69,6 +74,10 @@ jobs:
     defaults:
       run:
         shell: cmd
+    env:
+      RUNNER_WORK_LOCATION: ${{ secrets.RUNNER_WORK_LOCATION }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      IIS_FOLDER: ${{ secrets.IIS_FOLDER }}
 
     steps:
     - name: Set AWS credentials
@@ -80,11 +89,11 @@ jobs:
     
     - name: Download the zip file from S3 to EC2 folder
       shell: powershell
-      run: aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip C:\actions-runner\_work
+      run: aws s3 cp s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/myapp.zip ${{ env.RUNNER_WORK_LOCATION }}
         
     - name: Unzipping the Zip file
       shell: powershell
-      run: Expand-Archive -Path C:\actions-runner\_work\myapp.zip -DestinationPath C:\actions-runner\_work\output
+      run: Expand-Archive -Path ${{ env.RUNNER_WORK_LOCATION }}\myapp.zip -DestinationPath ${{ env.RUNNER_WORK_LOCATION }}\output
 
     - name: Stop IIS Server
       shell: powershell
@@ -92,11 +101,11 @@ jobs:
 
     - name: Delete the IIS folder
       shell: powershell
-      run: Remove-Item "C:\inetpub\wwwroot\*"  -Recurse
+      run: Remove-Item "${{ env.IIS_FOLDER }}\*"  -Recurse
       
     - name: Copy files to wwwroot folder of IIS server
       shell: powershell
-      run: Copy-Item -Path C:\actions-runner\_work\output\* -Destination "C:\inetpub\wwwroot" -Recurse -Force
+      run: Copy-Item -Path ${{ env.RUNNER_WORK_LOCATION }}\output\* -Destination "${{ env.IIS_FOLDER }}" -Recurse -Force
 
     - name: Start IIS Server
       shell: powershell
@@ -105,18 +114,18 @@ jobs:
     - name: Download the Commit SHA file from S3 bucket to EC2 location and rename the artifacts file in S3 bucket
       shell: powershell
       run: |
-        aws s3 cp s3://dotnet-cicd-bucket-demo/dotnet-web-app/commit_sha.txt C:\actions-runner\_work
-        $output = cat C:\actions-runner\_work\commit_sha.txt
-        aws s3 mv s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp.zip s3://dotnet-cicd-bucket-demo/dotnet-web-app/myapp-$output.zip
+        aws s3 cp s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/commit_sha.txt ${{ env.RUNNER_WORK_LOCATION }}
+        $output = cat ${{ env.RUNNER_WORK_LOCATION }}\commit_sha.txt
+        aws s3 mv s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/myapp.zip s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/myapp-$output.zip
                 
     - name: Delete the unzipped output folder & zipped file to allow new builds gracefully
       shell: powershell
       run: |
-        Remove-Item C:\actions-runner\_work\output -Recurse
-        Remove-Item C:\actions-runner\_work\myapp.zip
+        Remove-Item ${{ env.RUNNER_WORK_LOCATION }}\output -Recurse
+        Remove-Item ${{ env.RUNNER_WORK_LOCATION }}\myapp.zip
             
     - name: Delete the Commit SHA file from S3 bucket and EC2 instance location 
       shell: powershell
       run: |
-        aws s3 rm s3://dotnet-cicd-bucket-demo/dotnet-web-app/commit_sha.txt    
-        Remove-Item C:\actions-runner\_work\commit_sha.txt
+        aws s3 rm s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/commit_sha.txt    
+        Remove-Item ${{ env.RUNNER_WORK_LOCATION }}\commit_sha.txt
