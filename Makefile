@@ -1,5 +1,4 @@
-install:
-    @powershell -NoProfile -ExecutionPolicy Bypass -Command "if (-not (Get-Command aws -ErrorAction SilentlyContinue)) { make install-aws-cli } else { echo 'AWS CLI is already installed.' }"
+install: install-aws-cli
 
 install-aws-cli:
     @echo Installing AWS CLI...
@@ -7,3 +6,5 @@ install-aws-cli:
     @powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process msiexec.exe -ArgumentList '/i AWSCLIV2.msi /qn /quiet' -Wait"
     @del AWSCLIV2.msi
     @echo AWS CLI installed successfully.
+
+.PHONY: install-aws-cli
