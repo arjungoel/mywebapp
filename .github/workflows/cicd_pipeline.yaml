@@ -89,9 +89,7 @@ jobs:
     
     - name: Install binaries and dependencies using Makefile
       shell: powershell
-      run: |      
-        C:\ProgramData\chocolatey\choco.exe install make -y
-        C:\ProgramData\chocolatey\bin\make.exe install
+      run: make install
     
     - name: Download the zip file from S3 to EC2 folder
       shell: powershell
