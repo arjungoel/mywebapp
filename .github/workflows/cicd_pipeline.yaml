@@ -89,10 +89,8 @@ jobs:
     
     - name: Install binaries and dependencies using Makefile
       shell: powershell
-      run: |
-        Get-Command choco -ErrorAction SilentlyContinue | Uninstall-Command -Force -ErrorAction SilentlyContinue
-        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-        choco install make -y
+      run: |      
+        C:\ProgramData\chocolatey\choco.exe install make -y
         make install
     
     - name: Download the zip file from S3 to EC2 folder
