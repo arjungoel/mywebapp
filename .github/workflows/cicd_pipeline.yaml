@@ -23,7 +23,7 @@ jobs:
     steps:
     - name: Checkout code repository
       uses: actions/checkout@v3
-        
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -90,6 +90,7 @@ jobs:
     - name: Install binaries and dependencies using Makefile
       shell: powershell
       run: |
+        choco install make -y
         make install
     
     - name: Download the zip file from S3 to EC2 folder
