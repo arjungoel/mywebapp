@@ -32,7 +32,7 @@ jobs:
     steps:
     
     - name: Echoing Branch Name
-      run: echo "Hello ${{ inputs.name }}
+      run: echo "Hello ${{ inputs.name }}"
       
     - name: Checkout code repository
       uses: actions/checkout@v3
