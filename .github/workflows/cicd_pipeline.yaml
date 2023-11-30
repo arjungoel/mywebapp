@@ -20,8 +20,8 @@ on:
           - "light"
           - "high-contrast"
   
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -34,13 +34,14 @@ jobs:
     env:
       BUILD_PATH: ${{ secrets.BUILD_PATH }}
       AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      GIT_CONFIG_EMAIL: ${{ secrets.GIT_CONFIG_EMAIL }}
+      GIT_CONFIG_USERNAME: ${{ secrets.GIT_CONFIG_USERNAME }}
       
-
     steps:
     
     - name: Echoing Branch Name
       run: echo "Hello ${{ github.event.inputs.branchName }}"
-      
+          
     - name: Checkout code repository
       uses: actions/checkout@v3
 
@@ -76,6 +77,8 @@ jobs:
     - name: Retrieve Commit SHA for the build
       shell: powershell
       run: |
+        git config --global user.name ${{ env.GIT_CONFIG_USERNAME }}
+        git config --global user.name ${{ env.GIT_CONFIG_EMAIL }}
         $output = git rev-parse --short=4 HEAD
         echo $output
         echo $output > commit_sha.txt
