@@ -3,7 +3,7 @@ name: "Deploying a CI/CD for dotnet core web application using GitHub Actions an
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   
@@ -19,10 +19,10 @@ jobs:
         uses: github/super-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: "main"
+          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: false
-          OUTPUT_FOLDER: Linting-Report
+          OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
           OUTPUT_DETAILS: detailed
                
   build:
