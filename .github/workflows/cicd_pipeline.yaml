@@ -131,9 +131,9 @@ jobs:
     - name: Delete the zipped folder and unzipped folder if not deleted gracefully from the previous build run
       shell: powershell
       run: |
-       $folderPath = "${{ env.SH_RUNNER_WORK_LOCATION }}\output\myapp"
+       $folderPath = "${{ env.RUNNER_WORK_LOCATION }}\output"
        $testPath = Test-Path -Path $folderPath -PathType Container
-       $zipFilePath = "${{ env.SH_RUNNER_WORK_LOCATION }}\myapp.zip"
+       $zipFilePath = "${{ env.RUNNER_WORK_LOCATION }}\myapp.zip"
        $zipFileTestPath = Test-Path -Path $zipFilePath -PathType Leaf
 
        if ($testPath -eq $true) {
@@ -154,7 +154,7 @@ jobs:
         
     - name: Unzipping the Zip file
       shell: powershell
-      run: Expand-Archive -Path ${{ env.RUNNER_WORK_LOCATION }}\myapp.zip -DestinationPath ${{ env.RUNNER_WORK_LOCATION }}\output
+      run: Expand-Archive -Path ${{ env.RUNNER_WORK_LOCATION }}\myapp.zip -DestinationPath ${{ env.RUNNER_WORK_LOCATION }}\output -Force
 
     - name: Stop IIS Server
       shell: powershell
