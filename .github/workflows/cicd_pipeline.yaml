@@ -128,6 +128,26 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
     
+    - name: Delete the zipped folder and unzipped folder if not deleted gracefully from the previous build run
+      shell: powershell
+      run: |
+       $folderPath = "${{ env.SH_RUNNER_WORK_LOCATION }}\output"
+       $testPath = Test-Path -Path $folderPath -PathType Container
+       $zipFilePath = "${{ env.SH_RUNNER_WORK_LOCATION }}\myapp.zip"
+       $zipFileTestPath = Test-Path -Path $zipFilePath -PathType Leaf
+
+       if ($testPath -eq $true) {
+         takeown /F "$folderPath" /r /d y
+         icacls "$folderPath" /grant Administrators:F /t
+         Remove-Item -Path $folderPath -Recurse -Force -ErrorAction SilentlyContinue
+       } elseif ($zipFileTestPath -eq $true) {
+         Write-Output "File '$zipFilePath' exists. Removing..."
+         Remove-Item -Path $zipFilePath -Force
+         Write-Output "File removed successfully."
+       } else {
+         Write-Output "Neither unzipped folder nor zipped file found."
+       }
+
     - name: Download the zip file from S3 to EC2 folder
       shell: powershell
       run: aws s3 cp s3://${{ env.AWS_BUCKET_NAME }}/dotnet-web-app/myapp.zip ${{ env.RUNNER_WORK_LOCATION }}
