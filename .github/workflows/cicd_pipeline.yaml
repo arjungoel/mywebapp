@@ -57,8 +57,8 @@ jobs:
       
     steps:
     
-    - name: Echoing Branch Name
-      run: echo "Hello ${{ github.event.inputs.branchName }}"
+    # - name: Echoing Branch Name
+    #   run: echo "Hello ${{ github.event.inputs.branchName }}"
           
     - name: Checkout code repository
       uses: actions/checkout@v3
@@ -131,7 +131,7 @@ jobs:
     - name: Delete the zipped folder and unzipped folder if not deleted gracefully from the previous build run
       shell: powershell
       run: |
-       $folderPath = "${{ env.SH_RUNNER_WORK_LOCATION }}\output"
+       $folderPath = "${{ env.SH_RUNNER_WORK_LOCATION }}\output\myapp"
        $testPath = Test-Path -Path $folderPath -PathType Container
        $zipFilePath = "${{ env.SH_RUNNER_WORK_LOCATION }}\myapp.zip"
        $zipFileTestPath = Test-Path -Path $zipFilePath -PathType Leaf
