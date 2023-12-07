@@ -1,2 +1,2 @@
 # mywebapp
-Dotnet Core Sample app **mywebapp** in dotnet 7.0
+Dotnet Core Sample app **mywebapp** in dotnet core 7.0

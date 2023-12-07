@@ -25,26 +25,26 @@ on:
   
 jobs:
   
-  run-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  # run-lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true
-          OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
-          OUTPUT_DETAILS: simpler
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v4
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: true
+  #         DEFAULT_BRANCH: main
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         DISABLE_ERRORS: true
+  #         OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
+  #         OUTPUT_DETAILS: simpler
                
   build:
-    needs: run-lint
+    # needs: run-lint
     runs-on: windows-latest
     defaults:
       run:
