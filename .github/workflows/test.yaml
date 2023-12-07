@@ -1,0 +1,15 @@
+name: Test how to run a specific file from a branch using GitHub Actions
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - '.github/workflows/test.yaml'
+
+jobs:
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo statement
+        run: echo "Hello World"

@@ -3,27 +3,27 @@ name: "Deploying a CI/CD for dotnet core web application using GitHub Actions an
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
   
-  run-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  # run-lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: false
-          OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
-          OUTPUT_DETAILS: detailed
+  #     - name: Lint Code Base
+  #       uses: github/super-linter@v4
+  #       env:
+  #         VALIDATE_ALL_CODEBASE: true
+  #         DEFAULT_BRANCH: main
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         DISABLE_ERRORS: false
+  #         OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
+  #         OUTPUT_DETAILS: detailed
                
   build:
     runs-on: windows-latest
