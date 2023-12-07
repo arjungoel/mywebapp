@@ -3,8 +3,8 @@ name: Test how to run a specific file from a branch using GitHub Actions
 on:
   push:
     branches: [ develop ]
-    paths-ignore: 
-      - .github/workflows/**
+    paths: 
+      - .github/workflows/test.yaml
       # - '.github/workflows/test.yaml' 
       # - '.github/workflows/cicd_pipeline.yaml' 
     
