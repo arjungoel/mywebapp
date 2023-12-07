@@ -1,6 +1,10 @@
 name: Test how to run a specific file from a branch using GitHub Actions
 
 on:
+  label:
+    types:
+      - created
+      - edited
   push:
     branches: [ main ]
     paths:
