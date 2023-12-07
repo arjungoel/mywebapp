@@ -1,0 +1,73 @@
+name: "Deploying a CI/CD for dotnet core web application using GitHub Actions and storing the application artifacts to Amazon S3"
+
+on:
+  # workflow_dispatch:
+  #   inputs:
+  #     branchName:
+  #       description: "Provide the branch name"
+  #       type: string
+  #       required: true
+  #     isPremium:
+  #       description: "Adds premium features to the build"
+  #       type: boolean
+  #       required: false
+  #     preferredTheme:
+  #       description: "Frontend theme"
+  #       type: choice
+  #       default: "light"
+  #       options:
+  #         - "dark"
+  #         - "light"
+  #         - "high-contrast"
+  
+  push:
+    branches: [ main ]
+    paths:
+      - test.yaml
+
+jobs:
+  
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
+          OUTPUT_FOLDER: ${{ vars.LINTING_OUTPUT_FOLDER }}
+          OUTPUT_DETAILS: simpler
+               
+  build:
+    needs: run-lint
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: cmd
+
+    env:
+      BUILD_PATH: ${{ secrets.BUILD_PATH }}
+      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      GIT_CONFIG_EMAIL: ${{ secrets.GIT_CONFIG_EMAIL }}
+      GIT_CONFIG_USERNAME: ${{ secrets.GIT_CONFIG_USERNAME }}
+      
+    steps:
+    
+    # - name: Echoing Branch Name
+    #   run: echo "Hello ${{ github.event.inputs.branchName }}"
+          
+    - name: Checkout code repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0'
+        include-prerelease: True
