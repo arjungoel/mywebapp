@@ -23,7 +23,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - cicd_pipeline.yaml
+      - https://github.com/arjungoel/mywebapp/blob/main/.github/workflows/cicd_pipeline.yaml
 
 jobs:
   
