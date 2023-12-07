@@ -4,8 +4,9 @@ on:
   push:
     branches: [ develop ]
     paths-ignore: 
+      - .github/workflows/**
       # - '.github/workflows/test.yaml' 
-      - '.github/workflows/cicd_pipeline.yaml' 
+      # - '.github/workflows/cicd_pipeline.yaml' 
     
 
 jobs:
