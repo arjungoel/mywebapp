@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ develop ]
+    paths:
+      - '/.github/workflows/cicd_pipeline.yaml'
 
 jobs:
   
